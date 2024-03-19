@@ -1,0 +1,100 @@
+enum CarAction {
+    case startEngine
+    case stopEngine
+    case openWindows
+    case closeWindows
+    case loadCargo(volume: Double)
+    case unloadCargo(volume: Double)
+}
+
+struct Car {
+    var brand: String
+    var year: Int
+    var trunkVolume: Double
+    var isEngineRunning: Bool
+    var areWindowsOpen: Bool
+    var filledTrunkVolume: Double
+    
+    mutating func perform(action: CarAction) {
+        switch action {
+        case .startEngine:
+            isEngineRunning = true
+            print("Двигатель запущен")
+        case .stopEngine:
+            isEngineRunning = false
+            print("Двигатель заглушен")
+        case .openWindows:
+            areWindowsOpen = true
+            print("Окна открыты")
+        case .closeWindows:
+            areWindowsOpen = false
+            print("Окна закрыты")
+        case .loadCargo(let volume):
+            if filledTrunkVolume + volume <= trunkVolume {
+                filledTrunkVolume += volume
+                print("Груз объемом \(volume) загружен в багажник")
+            } else {
+                print("Недостаточно места в багажнике")
+            }
+        case .unloadCargo(let volume):
+            if filledTrunkVolume >= volume {
+                filledTrunkVolume -= volume
+                print("Груз объемом \(volume) выгружен из багажника")
+            } else {
+                print("В багажнике нет столько груза")
+            }
+        }
+    }
+}
+
+struct Truck {
+    var brand: String
+    var year: Int
+    var cargoVolume: Double
+    var isEngineRunning: Bool
+    var areWindowsOpen: Bool
+    var filledCargoVolume: Double
+    
+    mutating func perform(action: CarAction) {
+        switch action {
+        case .startEngine:
+            isEngineRunning = true
+            print("Двигатель запущен")
+        case .stopEngine:
+            isEngineRunning = false
+            print("Двигатель заглушен")
+        case .openWindows:
+            areWindowsOpen = true
+            print("Окна открыты")
+        case .closeWindows:
+            areWindowsOpen = false
+            print("Окна закрыты")
+        case .loadCargo(let volume):
+            if filledCargoVolume + volume <= cargoVolume {
+                filledCargoVolume += volume
+                print("Груз объемом \(volume) загружен в кузов")
+            } else {
+                print("Недостаточно места в кузове")
+            }
+        case .unloadCargo(let volume):
+            if filledCargoVolume >= volume {
+                filledCargoVolume -= volume
+                print("Груз объемом \(volume) выгружен из кузова")
+            } else {
+                print("В кузове нет столько груза")
+            }
+        }
+    }
+}
+
+var car1 = Car(brand: "Toyota", year: 2020, trunkVolume: 500, isEngineRunning: false, areWindowsOpen: false, filledTrunkVolume: 0)
+var truck1 = Truck(brand: "Volvo", year: 2018, cargoVolume: 2000, isEngineRunning: false, areWindowsOpen: false, filledCargoVolume: 0)
+
+car1.perform(action: .startEngine)
+car1.perform(action: .openWindows)
+car1.perform(action: .loadCargo(volume: 300))
+car1.perform(action: .stoptEngine)
+  
+truck1.perform(action: .startEngine)
+truck1.perform(action: .loadCargo(volume: 1500))
+truck1.perform(action: .unloadCargo(volume: 1000))
